@@ -1,0 +1,14 @@
+# Target
+CONFIG_IDF_TARGET="esp32s3"
+
+# Bump the main task stack: TFLite Micro's interpreter setup and the
+# classifier's tensor arena live on it in this skeleton.
+CONFIG_ESP_MAIN_TASK_STACK_SIZE=16384
+
+# Prefer speed over code size for the CNN's CONV_2D/FULLY_CONNECTED kernels.
+CONFIG_COMPILER_OPTIMIZATION_PERF=y
+
+# esp-tflite-micro pulls in C++ exceptions-free TFLM; keep RTTI/exceptions
+# off to save flash, matching upstream esp-tflite-micro examples.
+CONFIG_COMPILER_CXX_EXCEPTIONS=n
+CONFIG_COMPILER_CXX_RTTI=n

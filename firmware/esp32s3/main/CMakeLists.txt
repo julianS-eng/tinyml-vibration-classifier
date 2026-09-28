@@ -1,0 +1,10 @@
+idf_component_register(
+    SRCS
+        "main.cc"
+        "inference.cc"
+        "model/g_vibration_model.cc"
+        "model/g_test_vectors.cc"
+    INCLUDE_DIRS
+        "."
+        "model"
+)
