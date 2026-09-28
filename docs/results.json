@@ -1,0 +1,130 @@
+{
+  "seed": 42,
+  "window_length": 2048,
+  "n_samples": 1200,
+  "classes": [
+    "normal",
+    "imbalance",
+    "inner_race_fault",
+    "outer_race_fault"
+  ],
+  "baseline": {
+    "cv_accuracy_mean": 0.9983333333333334,
+    "cv_accuracy_std": 0.002041241452319308,
+    "cv_f1_macro_mean": 0.9983332175845545,
+    "cv_f1_macro_std": 0.002041383215042548,
+    "f1_per_class": {
+      "normal": 1.0,
+      "imbalance": 1.0,
+      "inner_race_fault": 0.9966777408637874,
+      "outer_race_fault": 0.9966555183946488
+    },
+    "confusion_matrix_figure": "docs/img/confusion_matrix_baseline.png",
+    "top_features": {
+      "peak_to_peak": 0.20288482562361465,
+      "peak": 0.13869629876455286,
+      "dominant_freq_amplitude": 0.09097929962272612,
+      "envelope_dominant_freq_amplitude": 0.08610489398148863,
+      "rms": 0.06380694631988632,
+      "envelope_rms": 0.06330740237436361,
+      "crest_factor": 0.04770851931270565,
+      "clearance_factor": 0.03730406610533497,
+      "shape_factor": 0.032054583232657516,
+      "spectral_entropy": 0.030846921086096782
+    },
+    "feature_importance_figure": "docs/img/feature_importance.png"
+  },
+  "example_signals_figure": "docs/img/example_signals.png",
+  "split": {
+    "n_train": 720,
+    "n_val": 240,
+    "n_test": 240,
+    "raw_signal_scale": 0.8657615184783936
+  },
+  "cnn_training": {
+    "epochs_run": 60,
+    "final_val_accuracy": 1.0
+  },
+  "cnn": {
+    "keras_float32": {
+      "test_accuracy": 1.0,
+      "f1_per_class": {
+        "normal": 1.0,
+        "imbalance": 1.0,
+        "inner_race_fault": 1.0,
+        "outer_race_fault": 1.0
+      },
+      "confusion_matrix_figure": "docs/img/confusion_matrix_cnn_float32.png"
+    },
+    "tflite_float32": {
+      "test_accuracy": 1.0,
+      "size_kb": 18.1328125
+    },
+    "tflite_int8": {
+      "test_accuracy": 1.0,
+      "f1_per_class": {
+        "normal": 1.0,
+        "imbalance": 1.0,
+        "inner_race_fault": 1.0,
+        "outer_race_fault": 1.0
+      },
+      "size_kb": 12.359375,
+      "ram_estimate_kb": 16.0,
+      "confusion_matrix_figure": "docs/img/confusion_matrix_cnn_int8.png"
+    },
+    "accuracy_drop_float_to_int8": 0.0,
+    "size_reduction_ratio": 1.4671302149178256
+  },
+  "model_comparison_table": [
+    {
+      "model": "Baseline (RF + classical features, 5-fold CV)",
+      "accuracy": 0.9983333333333334,
+      "f1_macro": 0.9983332175845545,
+      "size_kb": null,
+      "ram_estimate_kb": null
+    },
+    {
+      "model": "CNN (float32, Keras)",
+      "accuracy": 1.0,
+      "f1_macro": 1.0,
+      "size_kb": null,
+      "ram_estimate_kb": null
+    },
+    {
+      "model": "CNN (float32, TFLite)",
+      "accuracy": 1.0,
+      "f1_macro": null,
+      "size_kb": 18.1328125,
+      "ram_estimate_kb": null
+    },
+    {
+      "model": "CNN (int8, TFLite quantized)",
+      "accuracy": 1.0,
+      "f1_macro": 1.0,
+      "size_kb": 12.359375,
+      "ram_estimate_kb": 16.0
+    }
+  ],
+  "robustness": {
+    "description": "Held-out stress set: rpm in [900, 4200] (training range [1200, 3600]) and SNR in [-3, 5] dB (training range [3, 20] dB).",
+    "n_samples": 400,
+    "baseline_accuracy": 0.9175,
+    "cnn_int8_accuracy": 0.885
+  },
+  "firmware_export": {
+    "header": "firmware/esp32s3/main/model/g_vibration_model.h",
+    "source": "firmware/esp32s3/main/model/g_vibration_model.cc",
+    "model_bytes": 12656,
+    "test_vectors_header": "firmware/esp32s3/main/model/g_test_vectors.h",
+    "test_vectors_source": "firmware/esp32s3/main/model/g_test_vectors.cc",
+    "required_tflite_ops": [
+      "CONV_2D",
+      "EXPAND_DIMS",
+      "FULLY_CONNECTED",
+      "MEAN",
+      "RESHAPE",
+      "SOFTMAX"
+    ]
+  },
+  "runtime_seconds": 41.200761556625366
+}
